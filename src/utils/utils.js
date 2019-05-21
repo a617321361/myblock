@@ -59,3 +59,23 @@ export function getimglist(str) {  //str表示要转换的字符串
    
     
 }
+
+
+ //获取当前时间例2019-05-17
+ export function getNowFormatDate() {
+    var date = new Date();
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var hour = date.getHours();
+    var minute = date.getMinutes();
+    var second = date.getSeconds();
+    var currentdate = year  +'-'+ month  +'-'+ strDate+' '+hour+':'+minute+':'+second;
+    return currentdate;
+}

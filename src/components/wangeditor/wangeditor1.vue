@@ -68,7 +68,7 @@ export default {
     editor.customConfig.onchange = html => {
        var newhtml='<div>'+html+'</div>'
       // console.log(555,html)
-      this.$attrs.changel(html);
+      //this.$attrs.changel(html);
 
     //  this.$emit("change", newhtml);
     };

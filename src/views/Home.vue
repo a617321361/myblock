@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <Toppic></Toppic>
-    <Header></Header>
+    <Header ref='Header'></Header>
     <div class="content">
       <router-view v-if="isRouterAlive"></router-view>
     </div>
@@ -30,10 +30,13 @@ export default {
 
     },
     mounted(){
-      console.log(1111,this.$route)
+      console.log(1111,this)
       let arr = this.$route.matched;
       if(arr.length==1){
-          this.$router.push({name:'index',path:'/index'})
+          this.$router.push({name:'index',path:'/index'});
+          this.$refs.Header.changenav('/index')
+        }else{
+            // this.$refs.Header.changenav(this.$route.matched[1].)
         }
     },
     methods:{

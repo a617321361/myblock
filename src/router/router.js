@@ -13,6 +13,12 @@ const router =  new VueRouter({
           component:  (resolve) => require(['../views/index.vue'], resolve),
          
         },
+        {
+          path: '/articleinfo',
+          name: 'articleinfo',
+          component:  (resolve) => require(['../views/showblockdetial.vue'], resolve),
+         
+        },
       
       ]
     },

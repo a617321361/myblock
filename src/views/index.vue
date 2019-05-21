@@ -1,146 +1,43 @@
 <template>
     <div id="activity">
-        <div class="searchbox">
-        <el-form ref="form" :model="form" label-width="80px">
-            <el-button type="primary" size='small'>规 则</el-button>
-            <el-form-item label="时间">
-               <el-date-picker
-                v-model="form.timer"
-                type="datetimerange"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期">
-                </el-date-picker>
-            </el-form-item>
-            <el-form-item label="状态">
-                <el-select v-model="form.region" placeholder="请选择活动区域">
-                    <el-option :label="val.status"  v-for="(val,key) in form.starus" :key='key' :value="val.statusact"  ></el-option>
-                    
-                </el-select>
-            </el-form-item>
-            <el-form-item label="输入搜索">
-                <el-input v-model="form.name"  placeholder="请输入内容"></el-input>
-            </el-form-item>
-            <el-button type="primary" size='small' >查询</el-button>
-            <el-button type="primary" size='small' icon="el-icon-plus" class="add" >添加</el-button>
-        </el-form>
-       </div>
-
-
-
-       <el-table
-        :data="tableData"
-        border
-        style="width: 100%">
-        <el-table-column
-        type="index"
-        label="序号"
-        width="60px">
-        </el-table-column>
-        <el-table-column
-        prop="name"
-        label="活动名称"
-        width="400">
-        </el-table-column>
-        <el-table-column
-        prop="date"
-        label="活动时间"
-        width="400">
-        </el-table-column>
-        <el-table-column
-        label="状态"
-        >
-        <template slot-scope="scope">
-            <span v-bind:style="{'color':scope.row.statusact=='1' ? '#6cd26c':(scope.row.statusact=='2'||scope.row.statusact=='4'?'#e05454':'#494949')}">{{scope.row.status}}</span>
-        </template>
-        </el-table-column>
-         <el-table-column
-        prop="remark"
-        label="备注"
-        >
-        </el-table-column>
-         <el-table-column
-        label="操作"
-       >
-          <template slot-scope="scope">
-        <el-button
-          size="mini"
-          type="primary"
-          @click="handleEdit(scope.$index, scope.row)" v-if='scope.row.statusact=="1"||scope.row.statusact=="3"' >编辑</el-button>
-            <el-button
-          size="mini"
-          type="primary"
-          @click="handleEdit(scope.$index, scope.row)" v-if='scope.row.statusact=="2"||scope.row.statusact=="4"' >查看</el-button>
-        <el-button
-          size="mini"
-          type="danger"
-          @click="handleDelete(scope.$index, scope.row)" v-if='scope.row.statusact=="1"' >结束</el-button>
-      </template>
-        </el-table-column>
-    </el-table>
-    <span class="beizhu">注:同一个活动周期内只能有一个周期</span>
-
-
+         <div class="radio">
+            排序：
+            <el-radio-group v-model="reverse">
+            <el-radio :label="true">倒序</el-radio>
+            <el-radio :label="false">正序</el-radio>
+            </el-radio-group>
+        </div>
+       <el-timeline :reverse="reverse">
+        <el-timeline-item :timestamp="item.time" placement="top" color="#0bbd87" v-for="(item,index) in arrlist" :key='index'  >
+        <el-card  >
+            <h4 @click='showdetial(item)'>{{item.title}}</h4>
+            <p @click='showdetial(item)'>{{item.txt}}</p>
+            <span class="articletype">{{item.type=='1'?"知识库":"个人日记"}}</span>
+            <!-- <span class='edit'>编辑</span> -->
+            <el-button @click='editinfo(item)' class='edit' type="primary" size='small' icon="el-icon-edit" v-if='showedit'></el-button>
+        </el-card>
+        </el-timeline-item>
+     
+    </el-timeline>
        
+       <Editdialog ref='Editdialog'></Editdialog>
     </div>
+    
 </template>
 
 <script>
+import data from '../utils/data'
+import Editdialog from '../components/editdialog/editdialog'
+
 export default {
-    // inject: ['reload'],
+     components:{
+        Editdialog
+    },
     data(){
         return{
-            MenuList:[],
-            ses:window.sessionStorage,
-            form:{
-                name:'',
-                timer:[],
-                region:'',
-                starus:[
-                    {
-                        status:'进行中',
-                        statusact:'1',
-                    },
-                    {
-                         status:'已结束',
-                        statusact:'2',
-                    },
-                    {
-                         status:'未开始',
-                        statusact:'3',
-                    },
-                    {
-                        status:'手动结束',
-                        statusact:'4',
-                    },
-                ]
-            },
-               tableData: [{
-                date: '2016-05-02 00:12:20 ~ 2017-05-03 00:14:26',
-                name: '幸运大转盘',
-                status:'进行中',
-                statusact:'1',
-                remark: ''
-                }, {
-                date: '2016-05-02 00:12:20 ~ 2017-05-03 00:14:26',
-                name: '幸运大转盘',
-                status:'已结束',
-                statusact:'2',
-                remark: ''
-                }, {
-                date: '2016-05-02 00:12:20 ~ 2017-05-03 00:14:26',
-                name: '幸运大转盘',
-                status:'未开始',
-                statusact:'3',
-                remark: '上海市普陀区金沙江路'
-                }, {
-                date: '2016-05-02 00:12:20 ~ 2017-05-03 00:14:26',
-                name: '幸运大转盘',
-                status:'手动结束',
-                statusact:'4',
-                remark: '上海市普陀区金'
-                },]
-            
+            reverse:true,
+            arrlist:data.allarticlelist,
+            showedit:sessionStorage.getItem('mykey')
             
         }
     },
@@ -148,15 +45,20 @@ export default {
     //     this.getMenuList()
     // },
     mounted() {
-        
+        console.log(8877878787,data)
     },
     methods:{
-       handleEdit(index, row) {
-        console.log(index, row);
+      
+      showdetial(item){
+          console.log(77,item)
+        //   this.$router.push({path:'/articleinfo',query:{time:item.time}});
+          let href = window.location.host;
+          console.log(20,href)
+           window.open('http://'+href+'/#/articleinfo?time='+item.time,"_blank");    
       },
-      handleDelete(index, row) {
-        console.log(index, row);
-      }
+      editinfo(item){
+             this.$refs.Editdialog.sentedit(item)
+        }
         
       
     }
@@ -165,41 +67,60 @@ export default {
 
 <style lang="less">
 #activity{
-    margin-left: 9.1%;
+    width: 80%;
+    margin: auto;
     padding:  20px;
     box-sizing: border-box;
-    .searchbox{
-        overflow: hidden;
-        padding-bottom: 20px;
-        //border-bottom: 1px solid #eee;
-        margin-bottom: 20px;
-        .el-form-item{
-            float: left;
-            .el-range-separator{
-                    line-height: 21px;
-            }
-            .el-range__icon{
-                line-height: 22px;
-            }
+    position: relative;
+    .el-timeline-item__tail{
+        position: absolute;
+        left: 4px;
+        height: 100%;
+        border-left: 2px solid #e4e7ed;
+    }
+    .el-timeline-item__node{
+        left: -2px;
+        width: 14px;
+        height: 14px;
+    }
+    .el-timeline-item__node{
+        position: absolute;
+    background-color: #e4e7ed;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
         }
-        .el-button{
-            float: left;
-            margin-left: 20px;
-            margin-top: 5px;
+    .el-timeline-item__timestamp{
+        margin: 20px 0 10px 0;
+    }
+    .el-card__body{
+        position: relative;
+        h4{
+            font-size: 15px;
+            cursor: pointer;
         }
-        .add{
-            float: right;
+        p{
+            font-size: 14px;
+            margin-top: 10px;
+            cursor: pointer;
         }
-     }
-     .table-list table th, td{
-         
-         border-top: none;
-          border-left: none;
-     }
-     .beizhu{
-         color: #e66666;
-        margin-top: 15px;
-        float: left;
-     }
+        .articletype{
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            color: #f3ad54;
+        }
+        .edit{
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            color: #369;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+    }
+   
 }
 </style>

@@ -37,13 +37,14 @@ export default {
      
     }
     .calendarbox{
-      width: 250px;
-      height: 250px;
+      width: 200px;
+      height: 230px;
       position: absolute;
       padding: 10px 15px 0;
       top: 20px;
       left: 50px;
       background: #dea58b;
+      box-shadow: 0px 0px 12px #fff;
       text-align: center;
       .el-calendar__title{
         float: left;
@@ -58,14 +59,22 @@ export default {
       }
       .el-calendar-table{
         .el-calendar-table__row{
+          td{
+            border-color:#fff; 
+          }
           .current{
             padding: 6px;
+            
           }
           .prev{
             padding: 6px;
           }
           .next{
             padding: 6px;
+          }
+          .is-today{
+            background: #a7461b;
+           color: #fff;
           }
         }
       }
