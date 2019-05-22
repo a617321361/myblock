@@ -59,6 +59,10 @@ export default {
                     name:'个人日记',
                     path:'/Personal_diary'
                 },
+                 {
+                    name:'博客园',
+                    path:'https://www.cnblogs.com/'
+                },
             ],
             form:{
                 password:''
@@ -86,7 +90,12 @@ export default {
     methods:{
        handleSelect(key, keyPath){
            console.log(key, keyPath)
-           this.$router.push({path:key});
+           if(key=='https://www.cnblogs.com/'){
+                window.open(key,"_blank1"); 
+           }else{
+                this.$router.push({path:key});
+           }
+          
        },
        changenav(path){
            console.log(110,path)

@@ -1,6 +1,6 @@
 <template>
   <div class="blockbage" >
-    <h2>{{artileinfo.title}}</h2>
+    <h2 class="title">{{artileinfo.title}}</h2>
     <p class="fw">{{artileinfo.time}}</p>
     <div ref='mytxt'></div>
   </div>
@@ -51,6 +51,11 @@ export default {
   margin: auto;
   font-size: 14px;
   h2{
+    text-align: left;
+    font-size: 30px;
+    color: #494949;
+  }
+  .title{
     text-align: center;
     font-size: 30px;
     color: #494949;

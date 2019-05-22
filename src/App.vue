@@ -30,9 +30,10 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   .contentv{
-    height: 95%;
+    min-height: 100%;
     width: 100%;
     position: relative;
+        background: #ded3c6;
   }
 }
 </style>

@@ -72,6 +72,7 @@ export default {
     padding:  20px;
     box-sizing: border-box;
     position: relative;
+    overflow: hidden;
     .el-timeline-item__tail{
         position: absolute;
         left: 4px;
@@ -96,6 +97,7 @@ export default {
     }
     .el-card__body{
         position: relative;
+        background: #f1eeec;
         h4{
             font-size: 15px;
             cursor: pointer;

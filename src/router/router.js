@@ -14,6 +14,19 @@ const router =  new VueRouter({
          
         },
         {
+          path: '/knowledge',
+          name: 'knowledge',
+          component:  (resolve) => require(['../views/knowledge.vue'], resolve),
+         
+        },
+     
+      {
+        path: '/Personal_diary',
+        name: 'Personal_diary',
+        component:  (resolve) => require(['../views/Personal_diary.vue'], resolve),
+       
+      },
+        {
           path: '/articleinfo',
           name: 'articleinfo',
           component:  (resolve) => require(['../views/showblockdetial.vue'], resolve),

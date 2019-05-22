@@ -26,8 +26,10 @@
 
 
     <Wangeditor :editorContent='editortxt' :changel='callback' ></Wangeditor>
+
     <el-button @click='dialogVisible=false'>取消</el-button>
     <el-button type="primary" @click='Release'>发布</el-button>
+    <el-button type="danger" v-if='showtxt' @click='clear' class="clearbtn">清空文本</el-button>
     <div class='successtxt' v-if='showtxt'>{{editortxt}}</div>
   </el-dialog>
   </div>
@@ -89,6 +91,11 @@ export default {
         };
         console.log(88,newobj)
         this.showtxt=true;
+      },
+      clear(){
+  
+        this.editortxt='';
+        this.showtxt=false;
       }
     }
 }
@@ -103,6 +110,14 @@ export default {
     }
     .el-dialog__body{
       padding-top: 0
+    }
+    .clearbtn{
+      float: right;
+      margin-top: 10px;
+    }
+    .w-e-text-container {
+        position: relative;
+        height: 600px !important;
     }
     
   }
