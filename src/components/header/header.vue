@@ -15,7 +15,7 @@
            
             </el-menu>
 
-
+            <el-button icon="el-icon-search" class="eidt" circle @click='searchtxt' ></el-button>
             <el-button type="primary" icon="el-icon-edit" circle class="eidt" @click='editarticle' ></el-button>
             <el-dialog title="管理提示" :visible.sync="dialogFormVisible">
             <el-form :model="form" ref='form' :rules="rules">
@@ -127,6 +127,9 @@ export default {
             return false;
           }
         });
+       },
+       searchtxt(){
+            this.$router.push({path:'/search'});
        }
        
     }
@@ -159,6 +162,7 @@ export default {
             margin: 10px 20px 0 0;
             background: none;
             border-color:#fff;
+            color: #fff;
         }
     }
   

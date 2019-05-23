@@ -10,7 +10,7 @@
           <div style="padding: 14px;" class="bottomtxt">
             <span>{{item.name}}</span>
             <div >
-              <el-button type="text" class="button">点击进入</el-button>
+              <el-button type="text" class="button" @click='enterpage'>点击进入</el-button>
             </div>
           </div>
         </el-card>
@@ -54,7 +54,10 @@ export default {
       }
     },
     methods:{
-
+      enterpage(){
+        this.$message.warning('模块正在开发中。。。。');
+        
+      }
     }
 }
 </script>

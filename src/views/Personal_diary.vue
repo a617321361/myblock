@@ -2,14 +2,14 @@
 
 
   <div class="mydiary">
-     <div class="cardbox">
+     <div class="cardbox" v-for="(item,index) in articlelist" :key='index'>
         <el-card class="box-card" shadow="hover">
-            <div class="itembox">
-               <img src='https://yy.kpzs.com/upload/image/1905221728322983.jpg'/>
-               <h2>人生不可错过的五句话</h2>
+            <div class="itembox" @click='showdetial(item)'>
+               <img :src='item.src'/>
+               <h2>{{item.title}}</h2>
+               <p class="fwtxt"><i class="el-icon-time"></i><span class="time">{{item.time}}</span>{{item.txt}}</p>
                <div class="txt">
-                  
-	最近吃辅食孩子肠胃不消化，天天研究孩子的粑粑，我闻一遍我老公闻一遍，观察粑粑的状态，成分，是否有粘液，是否有蔬菜残留物，是否有未消化的高铁，妈呀，真是养儿方知父母恩，作为新手妈妈，我的内心总是处于惶恐焦虑的状态。孩子如果有一点儿反常，咳嗽几声，打喷嚏几个，鼻子呼哧呼哧的声音，我的心总会提到嗓子眼儿，担心他会不舒服担心他会生病。每次我这种高度紧张的状态出现时，我总是会屏住呼吸深吸一口气，对自己讲，平常心。
+                 {{item.content}}
                </div>
                
                <i class="el-icon-eleme"></i>
@@ -22,14 +22,43 @@
 
 </template>
 <script>
+import data from '../utils/data'
 export default {
     data(){
       return{
-
+        articlelist:[]
       }
     },
+    mounted(){
+      var arr=[];
+      var newlist = JSON.parse(JSON.stringify(data.allarticlelist))
+      newlist.map((val,key)=>{
+        if(val.type=='2'){//个人日记
+        var imgReg = /<img.*?(?:>|\/>)/gi;
+        var arrim = val.content.match(imgReg);
+        //  console.log(132,val)
+        if(!arrim){
+          return
+        }
+       // console.log(132,arrim)
+        var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        var src = arrim[0].match(srcReg);
+           val.content=val.content.replace(/<[^>]+>/g,"");//去掉所有的html标记
+           val.content=val.content.replace(/&nbsp;/g,"");//去掉所有的html空格
+
+           val.src=src[1];
+
+           arr.push(val)
+        }
+      })
+      console.log(arr)
+      this.articlelist=arr;
+    },
     methods:{
-      
+      showdetial(item){
+        let href = window.location.host;
+        window.open('http://'+href+'/#/articleinfo?time='+item.time,"_blank2");  
+      }
     }
 }
 </script>
@@ -43,10 +72,12 @@ export default {
       .cardbox{
         width: 1005;
         overflow: hidden;
+        margin-top: 20px;
         .box-card{
           background: #f1eeec;
          .itembox{
            overflow: hidden;
+           cursor: pointer;
            position: relative;
             img{
                 width: 280px;
@@ -59,6 +90,19 @@ export default {
               padding-left: 22px;
               color: #5d5957;
             }
+            .fwtxt{
+               position: absolute;
+               right: 0;
+               bottom: 0px;
+               font-size: 12px;
+               left: 302px;
+               color: #9e9e9e;
+               text-align: right;
+               .time{
+                 margin-right: 40px;
+                 margin-left: 5px;
+               }
+            }
             .txt{
               position: absolute;
               height: 100px;
@@ -70,6 +114,10 @@ export default {
               font-size: 14px;
               line-height: 24px;
               color: #6f6b6b;
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 4;
+              overflow: hidden;
               // overflow: hidden;
               // text-overflow:ellipsis;
               // white-space: nowrap;

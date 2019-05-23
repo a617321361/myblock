@@ -32,6 +32,12 @@ const router =  new VueRouter({
           component:  (resolve) => require(['../views/showblockdetial.vue'], resolve),
          
         },
+        {
+          path: '/search',
+          name: 'search',
+          component:  (resolve) => require(['../views/search.vue'], resolve),
+         
+        },
       
       ]
     },

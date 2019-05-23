@@ -75,12 +75,12 @@ export default {
     overflow: hidden;
     .el-timeline-item__tail{
         position: absolute;
-        left: 4px;
+        left: 6px;
         height: 100%;
         border-left: 2px solid #e4e7ed;
     }
     .el-timeline-item__node{
-        left: -2px;
+        left: 0px;
         width: 14px;
         height: 14px;
     }
